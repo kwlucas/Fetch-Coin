@@ -1,3 +1,7 @@
+body {
+    background-color: lightgray;
+}
+
 .input {
 width: 34em;
 margin: 1em 0 1em 1em;
@@ -14,5 +18,9 @@ margin: 1em 0 1em 1em;
 .box {
     min-height: 18em;
     background-color: gray;
+    margin-right: 0;
+}
+
+#coinName {
     margin-right: 0;
 }
