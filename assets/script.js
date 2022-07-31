@@ -1,1 +1,1 @@
-var something = document.querySelector("#header")
+var coinEL = document.createElement("div")
