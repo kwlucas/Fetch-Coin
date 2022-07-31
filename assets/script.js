@@ -1,3 +1,4 @@
+var coinEL = document.createElement("div") //Is this necessary? -Kyle
 var searchButtonEl = document.querySelector("#searchBtn");
 
 var nameEl = document.querySelector("#coinName");
