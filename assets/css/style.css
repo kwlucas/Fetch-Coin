@@ -36,3 +36,7 @@ html, body {
 #headLineDisp {
     margin: 1em; 
 }
+
+#result-select {
+    width: 600px;
+}
