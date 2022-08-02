@@ -7,8 +7,8 @@ html, body {
     border-bottom: solid 2px rgb(90, 90, 90);
 }
 .input {
-width: 34em;
-margin: 1em 0 1em 1em;
+    width: 34em;
+    margin: 1em 0 1em 1em;
 }
 
 #navbar {
