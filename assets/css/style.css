@@ -20,12 +20,13 @@ html, body {
 }
 
 
-.box {
+.box-custom {
     min-height: 18em;
+    border-radius: 6px;
     color: white;
     background-color: gray;
-    
     box-shadow: 5px 5px 4px rgb(90, 90, 90);
+    padding: 1.25rem;
 }
 
 #priceDisp { 
