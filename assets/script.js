@@ -52,7 +52,11 @@ function searchCoin(query) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';
+    const apiKey = '';//APIkey goes here
+    if(!apiKey){
+        console.log('No APIkey');
+        return;
+    }
     fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}`)
         .then(function (response) {
             return response.json();
