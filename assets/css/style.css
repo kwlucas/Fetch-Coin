@@ -3,20 +3,27 @@ body {
 }
 
 .input {
-width: 34em;
-margin: 1em 0 1em 1em;
+    width: 34em;
+    margin: 1em 0 1em 1em;
 }
 
 #navbar {
-    background-color: dimgray;
+    background-color: gray;
 }
 
 .button {
     margin: 1em 0 0 0;
 }
 
+
 .box {
     min-height: 18em;
     background-color: gray;
-    margin-right: 1em;
+    margin: 1em 0 1em 1em;
+}
+
+#priceDisp {
+    min-height: 18em;
+    background-color: gray;
+    margin: 1em 0 1em -1em;
 }

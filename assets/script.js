@@ -1,4 +1,4 @@
-var coinEL = document.createElement("div") //Is this necessary? -Kyle
+var coinEL = document.createElement("div"); //Is this necessary? -Kyle
 var searchButtonEl = document.querySelector("#searchBtn");
 
 var nameEl = document.querySelector("#coinName");
@@ -19,11 +19,14 @@ function searchHandler(event) {
 
 function fetchPrice(geckoID) {
     //get price of coin with coinGecko
-    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`)
+    fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
+    )
         .then(function (response) {
             //TODO Error check and throw
             return response.json();
-        }).then(function(priceRes){
+        })
+        .then(function (priceRes) {
             priceRes = priceRes[`${geckoID}`];
             priceEl.textContent = `$${priceRes.usd}`;
         });
@@ -47,24 +50,24 @@ function searchCoin(query) {
         });
 }
 
-function searchNews(searchTerm){
+function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
     const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';
     fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}`)
-    .then(function (response) {
-        return response.json();
-    }).then(function (articleRes){
-        articleRes = articleRes['data'];
-        articleRes.forEach(article => {//get info from each result
-            var artTitle = article.title
-            var artURL = article.url;
-            var artDesc = article.description;
-            var artDate = article.published_at;
-            console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
-            //TODO write results to HTML
+        .then(function (response) {
+            return response.json();
+        }).then(function (articleRes) {
+            articleRes = articleRes['data'];
+            articleRes.forEach(article => {//get info from each result
+                var artTitle = article.title
+                var artURL = article.url;
+                var artDesc = article.description;
+                var artDate = article.published_at;
+                console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
+                //TODO write results to HTML
+            });
         });
-    });
-    
+
 }
 
 searchButtonEl.addEventListener('click', searchHandler);
