@@ -8,12 +8,14 @@ margin: 1em 0 1em 1em;
 }
 
 #navbar {
-    background-color: dimgray;
+    background-color: gray;
 }
 
 .button {
     margin: 1em 0 0 0;
+    background-color: 
 }
+
 
 .box {
     min-height: 18em;
