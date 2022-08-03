@@ -7,6 +7,10 @@ var priceEl = document.querySelector("#coinPrice");
 
 var articleDispEl = document.querySelector("#headLineDisp");
 
+var articleTitleEl = document.querySelector("#artTitle");
+var articleDescEl = document.querySelector("#artDesc");
+var articleDateEl = document.querySelector("#artDate");
+
 
 function searchHandler(event) {
     event.preventDefault();
@@ -67,8 +71,11 @@ function searchNews(searchTerm) {
                 var artURL = article.url;
                 var artDesc = article.description;
                 var artDate = article.published_at;
-                console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
-                //TODO write results to HTML
+                //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
+                articleTitleEl.textContent = artTitle;
+                articleTitleEl.href = artURL;
+                articleDescEl.textContent = artDesc;
+                articleDateEl.textContent = artDate.split("T")[0];
             });
         });
 
