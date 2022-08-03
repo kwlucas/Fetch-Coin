@@ -7,12 +7,15 @@ var priceEl = document.querySelector("#coinPrice");
 
 var articleDispEl = document.querySelector("#headLineDisp");
 
+var searchNum = 0;
+
 function searchHandler(event) {
     event.preventDefault();
     //get user input for search
     var searchInput = document.querySelector("#searchInput").value;
     //TODO: Validate search input
 
+    //FOR FUTURE USE searchNum++;
     searchCoin(searchInput);
 }
 
@@ -80,6 +83,11 @@ function searchNews(searchTerm) {
                 articleDispEl.appendChild(titleListItem);
                 articleDispEl.appendChild(descListItem);
                 articleDispEl.appendChild(artDateListItem);
+                
+                var addedElements = articleDispEl.children;
+                for (let i = 0; i < addedElements.length; i++) {
+                    addedElements[i].classList.add(`search${searchNum}`);
+                }
             });
         });
 
