@@ -8,50 +8,51 @@ var priceEl = document.querySelector("#coinPrice");
 var articleDispEl = document.querySelector("#headLineDisp");
 
 function searchHandler(event) {
-    event.preventDefault();
-    //get user input for search
-    var searchInput = document.querySelector("#searchInput").value;
-    //TODO: Validate search input
+  event.preventDefault();
+  //get user input for search
+  var searchInput = document.querySelector("#searchInput").value;
+  //TODO: Validate search input
 
-    searchCoin(searchInput);
+  searchCoin(searchInput);
 }
 
 function fetchPrice(geckoID) {
-    //get price of coin with coinGecko
-    fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
-    )
-        .then(function (response) {
-            //TODO Error check and throw
-            return response.json();
-        })
-        .then(function (priceRes) {
-            priceRes = priceRes[`${geckoID}`];
-            priceEl.textContent = `$${priceRes.usd}`;
-        });
+  //get price of coin with coinGecko
+  fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
+  )
+    .then(function (response) {
+      //TODO Error check and throw
+      return response.json();
+    })
+    .then(function (priceRes) {
+      priceRes = priceRes[`${geckoID}`];
+      priceEl.textContent = `$${priceRes.usd}`;
+    });
 }
 
 function searchCoin(query) {
-    //Get data from coinGecko
-    fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
-        .then(function (response) {
-            //TODO Error check and throw
-            return response.json();
-        }).then(function (coinRes) {
-            //TODO Narrow search results to most relevant b/c they are ordered by market cap
-            coinRes = coinRes.coins;
-            var coinName = coinRes[0].name;
-            searchNews(coinName);
-            //set text on html
-            nameEl.textContent = coinName;
-            symbolEl.textContent = coinRes[0].symbol;
-            fetchPrice(coinRes[0].id);
-        });
+  //Get data from coinGecko
+  fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
+    .then(function (response) {
+      //TODO Error check and throw
+      return response.json();
+    })
+    .then(function (coinRes) {
+      //TODO Narrow search results to most relevant b/c they are ordered by market cap
+      coinRes = coinRes.coins;
+      var coinName = coinRes[0].name;
+      searchNews(coinName);
+      //set text on html
+      nameEl.textContent = coinName;
+      symbolEl.textContent = coinRes[0].symbol;
+      fetchPrice(coinRes[0].id);
+    });
 }
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = '';//APIkey goes here
+    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
     if(!apiKey){
         console.log('No APIkey');
         return;
@@ -71,18 +72,17 @@ function searchNews(searchTerm) {
                 var descListItem = document.createElement("div");
                 var artDateListItem = document.createElement("div");
 
-                titleListItem.textContent=artTitle;
-                titleListItem.href=artURL;
-                titleListItem.target="_blank";
-                descListItem.textContent="Description: " + artDesc;
-                artDateListItem.textContent="Published: " + artDate.split("T")[0];
+        titleListItem.textContent = artTitle;
+        titleListItem.href = artURL;
+        titleListItem.target = "_blank";
+        descListItem.textContent = "Description: " + artDesc;
+        artDateListItem.textContent = "Published: " + artDate.split("T")[0];
 
-                articleDispEl.appendChild(titleListItem);
-                articleDispEl.appendChild(descListItem);
-                articleDispEl.appendChild(artDateListItem);
-            });
-        });
-
+        articleDispEl.appendChild(titleListItem);
+        articleDispEl.appendChild(descListItem);
+        articleDispEl.appendChild(artDateListItem);
+      });
+    });
 }
 
-searchButtonEl.addEventListener('click', searchHandler);
+searchButtonEl.addEventListener("click", searchHandler);

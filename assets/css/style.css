@@ -1,7 +1,7 @@
 html, body {
-    background-color: lightgray;
+    background-color: lightgrey;
     height: 100%;
-}
+    }
 
 .control {
     border-bottom: solid 2px rgb(90, 90, 90);
@@ -12,7 +12,7 @@ html, body {
 }
 
 #navbar {
-    background-color: gray;
+    background-color: #696969;
 }
 
 .button {
@@ -24,7 +24,7 @@ html, body {
     min-height: 18em;
     border-radius: 6px;
     color: white;
-    background-color: gray;
+    background-color: #696969;
     box-shadow: 5px 5px 4px rgb(90, 90, 90);
     padding: 1.25rem;
     font-family: 'Roboto', sans-serif;
@@ -36,8 +36,27 @@ html, body {
 
 #headLineDisp {
     margin: 1em; 
+    font-family: 'Roboto', sans-serif;
+    
 }
 
+a {
+    color:rgb(89, 205, 255);
+    font-weight: 800;
+    font-size: larger;
+}
+
+a:hover {
+    color: #000000;
+}
+
+a:visited {
+    color: rgb(255, 151, 113);
+} 
+
+a:visited:hover {
+    color: #000000
+}
 #result-select {
     width: 600px;
 }
@@ -50,11 +69,6 @@ html, body {
 #artTitle:link {
     color: #00bfff
 }
-
-#artTitle:visited {
-    color: rgb(254, 164, 209)
-}
-
 
 #artTitle:hover {
     color: #333333
