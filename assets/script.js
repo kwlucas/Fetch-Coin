@@ -7,11 +7,6 @@ var priceEl = document.querySelector("#coinPrice");
 
 var articleDispEl = document.querySelector("#headLineDisp");
 
-var articleTitleEl = document.querySelector("#artTitle");
-var articleDescEl = document.querySelector("#artDesc");
-var articleDateEl = document.querySelector("#artDate");
-
-
 function searchHandler(event) {
     event.preventDefault();
     //get user input for search
@@ -57,11 +52,11 @@ function searchCoin(query) {
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
     const apiKey = '';//APIkey goes here
-    if(!apiKey){
+    if (!apiKey) {
         console.log('No APIkey');
         return;
     }
-    fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}`)
+    fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}&limit=3`)
         .then(function (response) {
             return response.json();
         }).then(function (articleRes) {
@@ -72,10 +67,19 @@ function searchNews(searchTerm) {
                 var artDesc = article.description;
                 var artDate = article.published_at;
                 //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
-                articleTitleEl.textContent = artTitle;
-                articleTitleEl.href = artURL;
-                articleDescEl.textContent = artDesc;
-                articleDateEl.textContent = artDate.split("T")[0];
+                var titleListItem = document.createElement("a");
+                var descListItem = document.createElement("div");
+                var artDateListItem = document.createElement("div");
+
+                titleListItem.textContent=artTitle;
+                titleListItem.href=artURL;
+                titleListItem.target="_blank";
+                descListItem.textContent="Description: " + artDesc;
+                artDateListItem.textContent="Published: " + artDate.split("T")[0];
+
+                articleDispEl.appendChild(titleListItem);
+                articleDispEl.appendChild(descListItem);
+                articleDispEl.appendChild(artDateListItem);
             });
         });
 
