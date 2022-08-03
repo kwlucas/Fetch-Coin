@@ -52,7 +52,7 @@ function searchCoin(query) {
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
     const apiKey = '';//APIkey goes here
-    if (!apiKey) {
+    if(!apiKey){
         console.log('No APIkey');
         return;
     }
