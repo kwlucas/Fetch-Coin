@@ -45,20 +45,36 @@ function searchCoin(query) {
             return response.json();
         }).then(function (coinRes) {
             coinRes = coinRes.coins;
-            if(coinRes.length >= 3){
+            if (coinRes.length >= 3) {
                 for (let i = 0; i < 3; i++) {
                     resultSelectEl.children[i].textContent = coinRes[i].name;
-                    
                 }
                 openModal(searchModalEl);
+                document.querySelector('#selectBtn').addEventListener('click', coinPass(coinRes));
             }
-            var coinName = coinRes[0].name;
-            searchNews(coinName);
-            //set text on html
-            nameEl.textContent = coinName;
-            symbolEl.textContent = coinRes[0].symbol;
-            fetchPrice(coinRes[0].id);
+            else {
+                writeCoinData(coinRes, 0);
+            }
         });
+}
+
+function coinPass(results){
+    let resNum = 0;
+    if (resultSelectEl.value) {
+        resNum = Number(resultSelectEl.value);
+    }
+    writeCoinData(results, resNum);
+    document.querySelector('#selectBtn').removeEventListener('click', coinPass());
+    closeModal(searchModalEl);
+}
+
+function writeCoinData(results, resNum) {
+    var coinName = results[resNum].name;
+    searchNews(coinName);
+    //set text on html
+    nameEl.textContent = coinName;
+    symbolEl.textContent = results[resNum].symbol;
+    fetchPrice(results[resNum].id);
 }
 
 function searchNews(searchTerm) {
@@ -83,16 +99,16 @@ function searchNews(searchTerm) {
                 var descListItem = document.createElement("div");
                 var artDateListItem = document.createElement("div");
 
-                titleListItem.textContent=artTitle;
-                titleListItem.href=artURL;
-                titleListItem.target="_blank";
-                descListItem.textContent="Description: " + artDesc;
-                artDateListItem.textContent="Published: " + artDate.split("T")[0];
+                titleListItem.textContent = artTitle;
+                titleListItem.href = artURL;
+                titleListItem.target = "_blank";
+                descListItem.textContent = "Description: " + artDesc;
+                artDateListItem.textContent = "Published: " + artDate.split("T")[0];
 
                 articleDispEl.appendChild(titleListItem);
                 articleDispEl.appendChild(descListItem);
                 articleDispEl.appendChild(artDateListItem);
-                
+
                 var addedElements = articleDispEl.children;
                 for (let i = 0; i < addedElements.length; i++) {
                     addedElements[i].classList.add(`search${searchNum}`);
@@ -102,15 +118,15 @@ function searchNews(searchTerm) {
 
 }
 
-function openModal(modalEl){
+function openModal(modalEl) {
     modalEl.classList.add('is-active');
 }
 
-function closeModal(modalEl){
-    if(modalEl){
+function closeModal(modalEl) {
+    if (modalEl) {
         modalEl.classList.remove('is-active');
     }
-    else{
+    else {
         document.querySelectorAll('.is-active').forEach(modal => {
             modal.classList.remove('is-active');
         });
