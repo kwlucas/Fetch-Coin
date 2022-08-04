@@ -50,25 +50,29 @@ function searchCoin(query) {
                     resultSelectEl.children[i].textContent = coinRes[i].name;
                 }
                 openModal(searchModalEl);
-                document.querySelector('#selectBtn').addEventListener('click', coinPass(coinRes));
+                document.querySelector('#selectBtn').addEventListener('click', function () { coinSelect(coinRes) });
             }
             else {
+                console.log("No select");
                 writeCoinData(coinRes, 0);
             }
         });
 }
 
-function coinPass(results){
+function coinSelect(results) {
     let resNum = 0;
     if (resultSelectEl.value) {
         resNum = Number(resultSelectEl.value);
     }
     writeCoinData(results, resNum);
-    document.querySelector('#selectBtn').removeEventListener('click', coinPass());
+    document.querySelector('#selectBtn').removeEventListener('click', function () { coinSelect() });
     closeModal(searchModalEl);
 }
 
 function writeCoinData(results, resNum) {
+    if (!results) {
+        return;
+    }
     var coinName = results[resNum].name;
     searchNews(coinName);
     //set text on html
