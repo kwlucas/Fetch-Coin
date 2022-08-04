@@ -1,6 +1,9 @@
 var coinEL = document.createElement("div"); //Is this necessary? -Kyle
 var searchButtonEl = document.querySelector("#searchBtn");
 
+var searchModalEl = document.querySelector("#searchModal");
+var resultSelectEl = document.querySelector("#result-select");
+
 var nameEl = document.querySelector("#coinName");
 var symbolEl = document.querySelector("#coinSymbol");
 var priceEl = document.querySelector("#coinPrice");
@@ -41,8 +44,14 @@ function searchCoin(query) {
             //TODO Error check and throw
             return response.json();
         }).then(function (coinRes) {
-            //TODO Narrow search results to most relevant b/c they are ordered by market cap
             coinRes = coinRes.coins;
+            if(coinRes.length >= 3){
+                for (let i = 0; i < 3; i++) {
+                    resultSelectEl.children[i].textContent = coinRes[i].name;
+                    
+                }
+                openModal(searchModalEl);
+            }
             var coinName = coinRes[0].name;
             searchNews(coinName);
             //set text on html
@@ -54,7 +63,7 @@ function searchCoin(query) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
+    const apiKey = '';//APIkey goes here
     if (!apiKey) {
         console.log('No APIkey');
         return;
@@ -93,4 +102,29 @@ function searchNews(searchTerm) {
 
 }
 
-searchButtonEl.addEventListener('click', searchHandler);
+function openModal(modalEl){
+    modalEl.classList.add('is-active');
+}
+
+function closeModal(modalEl){
+    if(modalEl){
+        modalEl.classList.remove('is-active');
+    }
+    else{
+        document.querySelectorAll('.is-active').forEach(modal => {
+            modal.classList.remove('is-active');
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    searchButtonEl.addEventListener('click', searchHandler);
+
+    (document.querySelectorAll('.modal-close') || []).forEach(close => {
+        var linkedModal = close.closest('.modal');
+
+        close.addEventListener('click', () => {
+            closeModal(linkedModal);
+        })
+    })
+});
