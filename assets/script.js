@@ -8,6 +8,8 @@ var nameEl = document.querySelector("#coinName");
 var symbolEl = document.querySelector("#coinSymbol");
 var priceEl = document.querySelector("#coinPrice");
 
+var sectionEl = document.querySelector(".section");
+
 var articleDispEl = document.querySelector("#headLineDisp");
 
 var searchNum = 0;
@@ -116,6 +118,8 @@ function searchNews(searchTerm) {
                 articleDispEl.appendChild(descListItem);
                 articleDispEl.appendChild(artDateListItem);
 
+                titleListItem.classList.add("artTitle");
+
                 var addedElements = articleDispEl.children;
                 for (let i = 0; i < addedElements.length; i++) {
                     addedElements[i].classList.add(`search${searchNum}`);
@@ -123,6 +127,22 @@ function searchNews(searchTerm) {
             });
         });
 
+}
+
+function addBlock() {
+    let conatianerEl = document.createElement("div");
+    conatianerEl.classList.add(`search${searchNum} container`);
+    let columnsEl =document.createElement("div");
+    columnsEl.classList.add(`search${searchNum} columns`);
+    let priceDispEl =document.createElement("div");
+    priceDispEl.classList.add(`search${searchNum} box-custom column is-one-third priceDisp`);
+    let headLineDispEl =document.createElement("div");
+    headLineDispEl.classList.add(`search${searchNum} box-custom column headLineDisp`);
+
+    sectionEl.appendChild(containeEl);
+    containerEl.appendChild(columnsEl);
+    columnsEl.appendChild(priceDispEl);
+    columnsEl.appendChild(headLineDispEl);   
 }
 
 function openModal(modalEl) {
