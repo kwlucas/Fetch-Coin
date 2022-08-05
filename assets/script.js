@@ -87,7 +87,7 @@ function searchNews(searchTerm) {
         console.log('No APIkey');
         return;
     }
-    fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}&limit=3`)
+    fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}&limit=3&published_after=2022-03-01&categories=business,tech,politics`)
         .then(function (response) {
             return response.json();
         }).then(function (articleRes) {
