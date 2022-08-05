@@ -13,28 +13,27 @@ var articleDispEl = document.querySelector("#headLineDisp");
 var searchNum = 0;
 
 function searchHandler(event) {
-    event.preventDefault();
-    //get user input for search
-    var searchInput = document.querySelector("#searchInput").value;
-    //TODO: Validate search input
+  event.preventDefault();
+  //get user input for search
+  var searchInput = document.querySelector("#searchInput").value;
+  //TODO: Validate search input
 
-    //FOR FUTURE USE searchNum++;
-    searchCoin(searchInput);
+  searchCoin(searchInput);
 }
 
 function fetchPrice(geckoID) {
-    //get price of coin with coinGecko
-    fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
-    )
-        .then(function (response) {
-            //TODO Error check and throw
-            return response.json();
-        })
-        .then(function (priceRes) {
-            priceRes = priceRes[`${geckoID}`];
-            priceEl.textContent = `$${priceRes.usd}`;
-        });
+  //get price of coin with coinGecko
+  fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
+  )
+    .then(function (response) {
+      //TODO Error check and throw
+      return response.json();
+    })
+    .then(function (priceRes) {
+      priceRes = priceRes[`${geckoID}`];
+      priceEl.textContent = `$${priceRes.usd}`;
+    });
 }
 
 function searchCoin(query) {
@@ -84,7 +83,7 @@ function writeCoinData(results, resNum) {
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
     const apiKey = '';//APIkey goes here
-    if (!apiKey) {
+    if(!apiKey){
         console.log('No APIkey');
         return;
     }
