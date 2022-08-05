@@ -1,42 +1,42 @@
-var coinEL = document.createElement("div"); //Is this necessary? -Kyle
+//var coinEL = document.createElement("div"); //Is this necessary? -Kyle
 var searchButtonEl = document.querySelector("#searchBtn");
 
 var searchModalEl = document.querySelector("#searchModal");
 var resultSelectEl = document.querySelector("#result-select");
 
-var nameEl = document.querySelector("#coinName");
-var symbolEl = document.querySelector("#coinSymbol");
-var priceEl = document.querySelector("#coinPrice");
+// var nameEl = document.querySelector("#coinName");
+// var symbolEl = document.querySelector("#coinSymbol");
+// var priceEl = document.querySelector("#coinPrice");
 
 var sectionEl = document.querySelector(".section");
-
-var articleDispEl = document.querySelector("#headLineDisp");
 
 var searchNum = 0;
 
 function searchHandler(event) {
-  event.preventDefault();
-  //get user input for search
-  var searchInput = document.querySelector("#searchInput").value;
-  //TODO: Validate search input
-
-  searchCoin(searchInput);
+    event.preventDefault();
+    //get user input for search
+    var searchInput = document.querySelector("#searchInput").value;
+    //TODO: Validate search input
+    searchCoin(searchInput);
 }
 
 function fetchPrice(geckoID) {
-  //get price of coin with coinGecko
-  fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
-  )
-    .then(function (response) {
-      //TODO Error check and throw
-      return response.json();
-    })
-    .then(function (priceRes) {
-      priceRes = priceRes[`${geckoID}`];
-      priceEl.textContent = `$${priceRes.usd}`;
-    });
+    var priceEl = document.querySelector(`.coinPrice.search${searchNum}`);
+    //get price of coin with coinGecko
+    fetch(
+        `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
+    )
+        .then(function (response) {
+            //TODO Error check and throw
+            return response.json();
+        })
+        .then(function (priceRes) {
+            priceRes = priceRes[`${geckoID}`];
+            priceEl.textContent = `$${priceRes.usd}`;
+        });
 }
+
+var run = true;
 
 function searchCoin(query) {
     //Get data from coinGecko
@@ -51,7 +51,13 @@ function searchCoin(query) {
                     resultSelectEl.children[i].textContent = coinRes[i].name;
                 }
                 openModal(searchModalEl);
+                if(run){
+                    console.log("run");
                 document.querySelector('#selectBtn').addEventListener('click', function () { coinSelect(coinRes) });
+                }
+                else{
+                    console.log('Not run');
+                }
             }
             else {
                 console.log("No select");
@@ -67,6 +73,7 @@ function coinSelect(results) {
     }
     writeCoinData(results, resNum);
     document.querySelector('#selectBtn').removeEventListener('click', function () { coinSelect() });
+    run = false;
     closeModal(searchModalEl);
 }
 
@@ -74,9 +81,25 @@ function writeCoinData(results, resNum) {
     if (!results) {
         return;
     }
+    searchNum++;
+    console.log(`SearchNum: ${searchNum}`);
+    addBlock();
     var coinName = results[resNum].name;
     searchNews(coinName);
     //set text on html
+    var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
+    var nameEl = document.createElement("div");
+    var symbolEl = document.createElement("div");
+    var priceEl = document.createElement("div");
+
+    priceDispEl.appendChild(nameEl);
+    priceDispEl.appendChild(symbolEl);
+    priceDispEl.appendChild(priceEl);
+    var addClasses = ['coinName', 'coinSymbol', 'coinPrice'];
+    var addedElements = priceDispEl.children;
+    for (let i = 0; i < addedElements.length; i++) {
+        addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
+    }
     nameEl.textContent = coinName;
     symbolEl.textContent = results[resNum].symbol;
     fetchPrice(results[resNum].id);
@@ -84,8 +107,8 @@ function writeCoinData(results, resNum) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = '';//APIkey goes here
-    if(!apiKey){
+    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
+    if (!apiKey) {
         console.log('No APIkey');
         return;
     }
@@ -103,7 +126,7 @@ function searchNews(searchTerm) {
                 var titleListItem = document.createElement("a");
                 var descListItem = document.createElement("div");
                 var artDateListItem = document.createElement("div");
-
+                var articleDispEl = document.querySelector(`.headLineDisp.search${searchNum}`);
                 titleListItem.textContent = artTitle;
                 titleListItem.href = artURL;
                 titleListItem.target = "_blank";
@@ -114,11 +137,10 @@ function searchNews(searchTerm) {
                 articleDispEl.appendChild(descListItem);
                 articleDispEl.appendChild(artDateListItem);
 
-                titleListItem.classList.add("artTitle");
-
+                var addClasses = ['artTitle', 'artDesc', 'artDate']
                 var addedElements = articleDispEl.children;
                 for (let i = 0; i < addedElements.length; i++) {
-                    addedElements[i].classList.add(`search${searchNum}`);
+                    addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
                 }
             });
         });
@@ -127,18 +149,18 @@ function searchNews(searchTerm) {
 
 function addBlock() {
     let containerEl = document.createElement("div");
-    containerEl.classList.add(`search${searchNum} container`);
-    let columnsEl =document.createElement("div");
-    columnsEl.classList.add(`search${searchNum} columns`);
-    let priceDispEl =document.createElement("div");
-    priceDispEl.classList.add(`search${searchNum} box-custom column is-one-third priceDisp`);
-    let headLineDispEl =document.createElement("div");
-    headLineDispEl.classList.add(`search${searchNum} box-custom column headLineDisp`);
+    containerEl.classList.add(`search${searchNum}`, `container`);
+    let columnsEl = document.createElement("div");
+    columnsEl.classList.add(`search${searchNum}`, `columns`);
+    let priceDispEl = document.createElement("div");
+    priceDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `is-one-third`, `priceDisp`);
+    let headLineDispEl = document.createElement("div");
+    headLineDispEl.classList.add(`search${searchNum}`, `box-custom` ,`column`, `headLineDisp`);
 
     sectionEl.appendChild(containerEl);
     containerEl.appendChild(columnsEl);
     columnsEl.appendChild(priceDispEl);
-    columnsEl.appendChild(headLineDispEl);   
+    columnsEl.appendChild(headLineDispEl);
 }
 
 function openModal(modalEl) {
