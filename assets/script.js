@@ -51,26 +51,30 @@ function searchCoin(query) {
 }
 
 function searchNews(searchTerm) {
-    //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
-    if(!apiKey){
-        console.log('No APIkey');
-        return;
-    }
-    fetch(`https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}&limit=3`)
-        .then(function (response) {
-            return response.json();
-        }).then(function (articleRes) {
-            articleRes = articleRes['data'];
-            articleRes.forEach(article => {//get info from each result
-                var artTitle = article.title
-                var artURL = article.url;
-                var artDesc = article.description;
-                var artDate = article.published_at;
-                //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
-                var titleListItem = document.createElement("a");
-                var descListItem = document.createElement("div");
-                var artDateListItem = document.createElement("div");
+  //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
+  const apiKey = "z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk"; //APIkey goes here
+  if (!apiKey) {
+    console.log("No APIkey");
+    return;
+  }
+  fetch(
+    `https://api.thenewsapi.com/v1/news/all?api_token=${apiKey}&language=en&search=${searchTerm}&limit=3`
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (articleRes) {
+      articleRes = articleRes["data"];
+      articleRes.forEach((article) => {
+        //get info from each result
+        var artTitle = article.title;
+        var artURL = article.url;
+        var artDesc = article.description;
+        var artDate = article.published_at;
+        //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
+        var titleListItem = document.createElement("a");
+        var descListItem = document.createElement("div");
+        var artDateListItem = document.createElement("div");
 
         titleListItem.textContent = artTitle;
         titleListItem.href = artURL;

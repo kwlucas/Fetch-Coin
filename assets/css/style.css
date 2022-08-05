@@ -65,11 +65,3 @@ a:visited:hover {
     font-size:larger;
     font-weight:bolder;
 }
-    
-#artTitle:link {
-    color: #00bfff
-}
-
-#artTitle:hover {
-    color: #333333
-}
