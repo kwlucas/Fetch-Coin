@@ -8,7 +8,7 @@ html, body {
 }
 .input {
     width: 34em;
-    margin: 1em 0 1em 1em;
+    margin: 1em 0 0 1em;
 }
 
 #navbar {
@@ -16,7 +16,7 @@ html, body {
 }
 
 .button {
-    margin: 1em 0 0 0;
+    margin: 1em;
 }
 
 
