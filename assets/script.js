@@ -130,8 +130,8 @@ function searchNews(searchTerm) {
 }
 
 function addBlock() {
-    let conatianerEl = document.createElement("div");
-    conatianerEl.classList.add(`search${searchNum} container`);
+    let containerEl = document.createElement("div");
+    containerEl.classList.add(`search${searchNum} container`);
     let columnsEl =document.createElement("div");
     columnsEl.classList.add(`search${searchNum} columns`);
     let priceDispEl =document.createElement("div");
@@ -139,7 +139,7 @@ function addBlock() {
     let headLineDispEl =document.createElement("div");
     headLineDispEl.classList.add(`search${searchNum} box-custom column headLineDisp`);
 
-    sectionEl.appendChild(containeEl);
+    sectionEl.appendChild(containerEl);
     containerEl.appendChild(columnsEl);
     columnsEl.appendChild(priceDispEl);
     columnsEl.appendChild(headLineDispEl);   
