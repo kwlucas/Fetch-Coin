@@ -90,7 +90,7 @@ function writeCoinData(resNum) {
     for (let i = 0; i < addedElements.length; i++) {
         addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
     }
-    console.log(`ResNum: ${resNum}`);
+    //If there is a a "resNum" then it is not loaded data
     if (resNum || resNum == 0) {
         var coinName = coinData[resNum].name;
         searchNews(coinName);
@@ -102,7 +102,7 @@ function writeCoinData(resNum) {
         nameEl.textContent = coinData.name;
         symbolEl.textContent = coinData.symbol;
         priceEl.textContent = coinData.price;
-        coinData.articles.forEach(article => {//get info from each result
+        coinData.articles.forEach(article => {//for each article write to HTML
             writeArticle(article);
         });
     }
@@ -110,7 +110,7 @@ function writeCoinData(resNum) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
+    const apiKey = '';//APIkey goes here
     if (!apiKey) {
         console.log('No APIkey');
         return;
@@ -204,13 +204,13 @@ function saveData() {
 }
 
 function loadData() {
-    console.log('Loading Data');
     var loadNum = localStorage.getItem('searchNumber');
     for (let i = 0; i < loadNum; i++) {
         var results = localStorage.getItem(`searchNum${i}`);
-        if(results === null){
+        if (results === null) {
             continue;
         }
+        //Create array from string divinding it up where "!#!" is
         results = results.split(`!#!`);
         var articleArray = [];
         for (let x = 0; x < 3; x++) {
@@ -220,6 +220,7 @@ function loadData() {
                 description: results[5 + (x * 4)],
                 published_at: results[6 + (x * 4)],
             };
+            //Add object which contains the article title, url, description, and date published to array
             articleArray.push(loadedArt);
         }
 
@@ -246,8 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('load', () => {
-    console.log(`Search Number Stored: ${localStorage.getItem('searchNumber')}`);
-    if(localStorage.getItem('searchNumber') !== null){
+    if (localStorage.getItem('searchNumber') !== null) {
         loadData();
     }
 });
