@@ -27,7 +27,8 @@ function fetchPrice(geckoID) {
             return response.json();
         })
         .then(function (priceRes) {
-            priceRes = priceRes[`${geckoID}`];//get the object within the price results called `${geckoID}`
+            //get the object within the price results called `${geckoID}`
+            priceRes = priceRes[`${geckoID}`];
             priceEl.textContent = `$${priceRes.usd}`;
         });
 }
