@@ -1,4 +1,3 @@
-//var coinEL = document.createElement("div"); //Is this necessary? -Kyle
 var searchButtonEl = document.querySelector("#searchBtn");
 
 var searchModalEl = document.querySelector("#searchModal");
@@ -6,7 +5,7 @@ var resultSelectEl = document.querySelector("#result-select");
 
 var sectionEl = document.querySelector(".section");
 
-var coinData;
+var coinData; //empty global variable to hold the coin data 
 var searchNum = 0;
 
 function searchHandler(event) {
@@ -28,20 +27,21 @@ function fetchPrice(geckoID) {
             return response.json();
         })
         .then(function (priceRes) {
-            priceRes = priceRes[`${geckoID}`];
+            priceRes = priceRes[`${geckoID}`];//get the object within the price results called `${geckoID}`
             priceEl.textContent = `$${priceRes.usd}`;
         });
 }
 
 function searchCoin(query) {
-    //Get data from coinGecko
-    coinData = '';
+    coinData = '';//Clear coin data
+    //Fetch data from coin gecko using search query
     fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
         .then(function (response) {
             //TODO Error check and throw
             return response.json();
         }).then(function (coinRes) {
             coinData = coinRes.coins;
+            //If there are three or more results
             if (coinData.length >= 3) {
                 for (let i = 0; i < 3; i++) {
                     resultSelectEl.children[i].textContent = coinData[i].name;
@@ -62,6 +62,7 @@ function coinSelect() {
         resNum = Number(resultSelectEl.value);
     }
     writeCoinData(resNum);
+    //Remove event listener from the select button
     document.querySelector('#selectBtn').removeEventListener('click', coinSelect);
     closeModal(searchModalEl);
 }
@@ -76,7 +77,7 @@ function writeCoinData(resNum) {
     addBlock();
     var coinName = coinData[resNum].name;
     searchNews(coinName);
-    //set text on html
+    //Write data to html
     var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
     var nameEl = document.createElement("div");
     var symbolEl = document.createElement("div");
@@ -97,7 +98,7 @@ function writeCoinData(resNum) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
+    const apiKey = '';//APIkey goes here
     if (!apiKey) {
         console.log('No APIkey');
         return;
@@ -145,7 +146,7 @@ function addBlock() {
     let priceDispEl = document.createElement("div");
     priceDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `is-one-third`, `priceDisp`);
     let headLineDispEl = document.createElement("div");
-    headLineDispEl.classList.add(`search${searchNum}`, `box-custom` ,`column`, `headLineDisp`);
+    headLineDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `headLineDisp`);
 
     sectionEl.appendChild(containerEl);
     containerEl.appendChild(columnsEl);
@@ -171,7 +172,7 @@ function closeModal(modalEl) {
 document.addEventListener('DOMContentLoaded', () => {
     searchButtonEl.addEventListener('click', searchHandler);
 
-    (document.querySelectorAll('.modal-close') || []).forEach(close => {
+    (document.querySelectorAll('.modal-close') || []).forEach(close => {//get all elements with "modal-close" class and run for each
         var linkedModal = close.closest('.modal');
 
         close.addEventListener('click', () => {
