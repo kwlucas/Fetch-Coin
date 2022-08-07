@@ -4,12 +4,9 @@ var searchButtonEl = document.querySelector("#searchBtn");
 var searchModalEl = document.querySelector("#searchModal");
 var resultSelectEl = document.querySelector("#result-select");
 
-// var nameEl = document.querySelector("#coinName");
-// var symbolEl = document.querySelector("#coinSymbol");
-// var priceEl = document.querySelector("#coinPrice");
-
 var sectionEl = document.querySelector(".section");
 
+var coinData;
 var searchNum = 0;
 
 function searchHandler(event) {
@@ -36,55 +33,48 @@ function fetchPrice(geckoID) {
         });
 }
 
-var run = true;
-
 function searchCoin(query) {
     //Get data from coinGecko
+    coinData = '';
     fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
         .then(function (response) {
             //TODO Error check and throw
             return response.json();
         }).then(function (coinRes) {
-            coinRes = coinRes.coins;
-            if (coinRes.length >= 3) {
+            coinData = coinRes.coins;
+            if (coinData.length >= 3) {
                 for (let i = 0; i < 3; i++) {
-                    resultSelectEl.children[i].textContent = coinRes[i].name;
+                    resultSelectEl.children[i].textContent = coinData[i].name;
                 }
                 openModal(searchModalEl);
-                if(run){
-                    console.log("run");
-                document.querySelector('#selectBtn').addEventListener('click', function () { coinSelect(coinRes) });
-                }
-                else{
-                    console.log('Not run');
-                }
+                document.querySelector('#selectBtn').addEventListener('click', coinSelect);
             }
             else {
                 console.log("No select");
-                writeCoinData(coinRes, 0);
+                writeCoinData(0);
             }
         });
 }
 
-function coinSelect(results) {
+function coinSelect() {
     let resNum = 0;
     if (resultSelectEl.value) {
         resNum = Number(resultSelectEl.value);
     }
-    writeCoinData(results, resNum);
-    document.querySelector('#selectBtn').removeEventListener('click', function () { coinSelect() });
-    run = false;
+    writeCoinData(resNum);
+    document.querySelector('#selectBtn').removeEventListener('click', coinSelect);
     closeModal(searchModalEl);
 }
 
-function writeCoinData(results, resNum) {
-    if (!results) {
+function writeCoinData(resNum) {
+    if (!coinData) {
+        console.log('No coin data!')
         return;
     }
     searchNum++;
     console.log(`SearchNum: ${searchNum}`);
     addBlock();
-    var coinName = results[resNum].name;
+    var coinName = coinData[resNum].name;
     searchNews(coinName);
     //set text on html
     var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
@@ -101,8 +91,8 @@ function writeCoinData(results, resNum) {
         addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
     }
     nameEl.textContent = coinName;
-    symbolEl.textContent = results[resNum].symbol;
-    fetchPrice(results[resNum].id);
+    symbolEl.textContent = coinData[resNum].symbol;
+    fetchPrice(coinData[resNum].id);
 }
 
 function searchNews(searchTerm) {
