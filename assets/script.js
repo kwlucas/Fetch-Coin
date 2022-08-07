@@ -76,8 +76,6 @@ function writeCoinData(resNum) {
     searchNum++;
     console.log(`SearchNum: ${searchNum}`);
     addBlock();
-    var coinName = coinData[resNum].name;
-    searchNews(coinName);
     //Write data to html
     var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
     var nameEl = document.createElement("div");
@@ -92,14 +90,27 @@ function writeCoinData(resNum) {
     for (let i = 0; i < addedElements.length; i++) {
         addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
     }
-    nameEl.textContent = coinName;
-    symbolEl.textContent = coinData[resNum].symbol;
-    fetchPrice(coinData[resNum].id);
+    console.log(`ResNum: ${resNum}`);
+    if (resNum || resNum == 0) {
+        var coinName = coinData[resNum].name;
+        searchNews(coinName);
+        nameEl.textContent = coinName;
+        symbolEl.textContent = coinData[resNum].symbol;
+        fetchPrice(coinData[resNum].id);
+    }
+    else {
+        nameEl.textContent = coinData.name;
+        symbolEl.textContent = coinData.symbol;
+        priceEl.textContent = coinData.price;
+        coinData.articles.forEach(article => {//get info from each result
+            writeArticle(article);
+        });
+    }
 }
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = '';//APIkey goes here
+    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
     if (!apiKey) {
         console.log('No APIkey');
         return;
@@ -110,33 +121,38 @@ function searchNews(searchTerm) {
         }).then(function (articleRes) {
             articleRes = articleRes['data'];
             articleRes.forEach(article => {//get info from each result
-                var artTitle = article.title
-                var artURL = article.url;
-                var artDesc = article.description;
-                var artDate = article.published_at;
-                //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
-                var titleListItem = document.createElement("a");
-                var descListItem = document.createElement("div");
-                var artDateListItem = document.createElement("div");
-                var articleDispEl = document.querySelector(`.headLineDisp.search${searchNum}`);
-                titleListItem.textContent = artTitle;
-                titleListItem.href = artURL;
-                titleListItem.target = "_blank";
-                descListItem.textContent = "Description: " + artDesc;
-                artDateListItem.textContent = "Published: " + artDate.split("T")[0];
-
-                articleDispEl.appendChild(titleListItem);
-                articleDispEl.appendChild(descListItem);
-                articleDispEl.appendChild(artDateListItem);
-
-                var addClasses = ['artTitle', 'artDesc', 'artDate']
-                var addedElements = articleDispEl.children;
-                for (let i = 0; i < addedElements.length; i++) {
-                    addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
-                }
+                writeArticle(article);
             });
+            saveData();
         });
 
+}
+
+function writeArticle(article) {
+    var artTitle = article.title
+    var artURL = article.url;
+    var artDesc = article.description;
+    var artDate = article.published_at;
+    //console.log(`Title: ${artTitle}\nURL: ${artURL}\nDescription: ${artDesc}\nDate published: ${artDate}`);
+    var titleListItem = document.createElement("a");
+    var descListItem = document.createElement("div");
+    var artDateListItem = document.createElement("div");
+    var articleDispEl = document.querySelector(`.headLineDisp.search${searchNum}`);
+    titleListItem.textContent = artTitle;
+    titleListItem.href = artURL;
+    titleListItem.target = "_blank";
+    descListItem.textContent = artDesc;
+    artDateListItem.textContent = artDate.split("T")[0];
+
+    articleDispEl.appendChild(titleListItem);
+    articleDispEl.appendChild(descListItem);
+    articleDispEl.appendChild(artDateListItem);
+
+    var addClasses = ['artTitle', 'artDesc', 'artDate']
+    var addedElements = [titleListItem, descListItem, artDateListItem];
+    for (let i = 0; i < addedElements.length; i++) {
+        addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
+    }
 }
 
 function addBlock() {
@@ -170,6 +186,53 @@ function closeModal(modalEl) {
     }
 }
 
+function saveData() {
+    var dataArray = document.querySelectorAll(`.coinName,.coinSymbol,.coinPrice,.artTitle,.artDesc,.artDate`);
+    var resultString = '';
+    localStorage.setItem(`searchNumber`, searchNum);
+    for (let i = 0; i < searchNum; i++) {
+        for (let x = 0; x < 12; x++) {
+            //console.log(`i=${i} x=${x} ix=${(i*12)+x}\n${dataArray[(i*12)+x]}`)
+            resultString += `${dataArray[(i * 12) + x].textContent}!#!`// resultString = resultString + `${dataArray[(i*12) + x].textContent}!#!
+            if (dataArray[(i * 12) + x].href) {//If the element has an href property
+                resultString += `${dataArray[(i * 12) + x].href}!#!`;
+            }
+        }
+        localStorage.setItem(`searchNum${i}`, resultString);
+        resultString = '';
+    }
+}
+
+function loadData() {
+    console.log('Loading Data');
+    var loadNum = localStorage.getItem('searchNumber');
+    for (let i = 0; i < loadNum; i++) {
+        var results = localStorage.getItem(`searchNum${i}`);
+        if(results === null){
+            continue;
+        }
+        results = results.split(`!#!`);
+        var articleArray = [];
+        for (let x = 0; x < 3; x++) {
+            loadedArt = {
+                title: results[3 + (x * 4)],
+                url: results[4 + (x * 4)],
+                description: results[5 + (x * 4)],
+                published_at: results[6 + (x * 4)],
+            };
+            articleArray.push(loadedArt);
+        }
+
+        coinData = {
+            name: results[0],
+            symbol: results[1],
+            price: results[2],
+            articles: articleArray
+        }
+        writeCoinData();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     searchButtonEl.addEventListener('click', searchHandler);
 
@@ -180,4 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal(linkedModal);
         })
     })
+});
+
+window.addEventListener('load', () => {
+    console.log(`Search Number Stored: ${localStorage.getItem('searchNumber')}`);
+    if(localStorage.getItem('searchNumber') !== null){
+        loadData();
+    }
 });
