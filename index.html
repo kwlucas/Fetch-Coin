@@ -5,39 +5,55 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crypto Tracker</title>
+    <!--link to external (bulma.io) style sheet, open source framework that provides ready-to-use frontend components, based in flexbox-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--link to external google font)-->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <!--link to preferred (local) style sheet-->
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
 <body>
+    <!--Bulma: field, contains input and button-->
     <div class="field">
+        <!--navbar w/ custom css class-->
         <div class="control" id="navbar">
+            <!--Bulma: input field, text, id for js query-selector.value-->
             <input id="searchInput" class="input" type="text" placeholder="Text input" />
+            <!--Bulma: button, custom id for js event-listener-->
             <button id="searchBtn" class="button">Search</button>
         </div>
-
+        <!--pop-up modal to verify user search input-->
         <div class="modal" id="searchModal">
+            <!--Bulma: transparent overlay that can act as a click target to close the modal-->
             <div class="modal-background"></div>
+            <!--Bulma: horizontally and vertically centered container, with a maximum width of 640px, in which you can include any content-->
             <div class="modal-content">
                 <div class="box">
+                    <!--Bulma: multiple select dropdown-->
                     <div class="select is-multiple is-large">
+                        <!--Bulma: dropdown with three values, id for js query-selector.value => coinSelect function-->
                         <select multiple size="3" id="result-select">
+                            <!--Bulma: children for options derived from fetch.then textContent-->
                             <option value="0">item 1</option>
                             <option value="1">item 2</option>
                             <option value="2">item 3</option>
                         </select>
                     </div>
+                    <!--Bulma: button, custom id for js id for query-selector coinSelect function-->
                     <button id="selectBtn" class="button">Select</button>
                 </div>
             </div>
+            <!--Bulma: button, close the modal with no additional input-->
             <button class="modal-close is-large" aria-label="close"></button>
         </div>
-
+        <!--js query-selector target class "section", boxes populated by addBlock function, creates divs & anchor (article title->link), populated by .textContent (writeCoinData & writeArticle function)-->
         <section class="section">
+            <!--REMOVED FROM MVP: container-> columns (bulma grid layout) -> Price Display (Bulma: .box) and Article Display (Bulma: .box) -->
         </section>
+        <!--link to javascript-->
         <script src="./assets/script.js"></script>
 
 </body>
