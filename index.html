@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crypto Tracker</title>
+    <!--fonts, stylesheet, and Bulma links-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,18 +15,24 @@
 
 <body>
     <div class="field">
+       <!--navbar-->
         <div class="control" id="navbar">
+            <!--input box for searches-->
+            <div>
             <input id="searchInput" class="input" type="text" placeholder="Text input" />
+            <!--button to confirm search-->
             <button id="searchBtn" class="button">Search</button>
-            <div class="level-right">
-                <h1 class="title is-1" id="title">CryptoCoinComparison</h1>
-                </div>
+            </div>
+            <span id="title">Name of Application</span>    
         </div>
-
+            
+        <!--dropdown modal to select desired cryptocurrency, created in Bulma-->
         <div class="modal" id="searchModal">
             <div class="modal-background"></div>
             <div class="modal-content">
-                <div class="box">
+                <!--left box for name, abbreviation, & price is generated-->
+                <!--right box is generated with news headlines and links to the articles, and date published-->
+                    <div class="box">
                     <div class="select is-multiple is-large">
                         <select multiple size="3" id="result-select">
                             <option value="0">item 1</option>
@@ -41,6 +48,7 @@
 
         <section class="section">
         </section>
+        <!--link to javascript-->
         <script src="./assets/script.js"></script>
 
 </body>
