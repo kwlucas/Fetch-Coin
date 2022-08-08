@@ -5,96 +5,98 @@ var resultSelectEl = document.querySelector("#result-select");
 
 var sectionEl = document.querySelector(".section");
 
-var coinData; //empty global variable to hold the coin data 
+var coinData; //empty global variable to hold the coin data
 var searchNum = 0;
 
 function searchHandler(event) {
-    event.preventDefault();
-    //get user input for search
-    var searchInput = document.querySelector("#searchInput").value;
-    //TODO: Validate search input
-    searchCoin(searchInput);
+  event.preventDefault();
+  //get user input for search
+  var searchInput = document.querySelector("#searchInput").value;
+  //TODO: Validate search input
+  searchCoin(searchInput);
 }
 
 function fetchPrice(geckoID) {
-    var priceEl = document.querySelector(`.coinPrice.search${searchNum}`);
-    //get price of coin with coinGecko
-    fetch(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
-    )
-        .then(function (response) {
-            //TODO Error check and throw
-            return response.json();
-        })
-        .then(function (priceRes) {
-            //get the object within the price results called `${geckoID}`
-            priceRes = priceRes[`${geckoID}`];
-            priceEl.textContent = `$${priceRes.usd}`;
-        });
+  var priceEl = document.querySelector(`.coinPrice.search${searchNum}`);
+  //get price of coin with coinGecko
+  fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${geckoID}&vs_currencies=usd`
+  )
+    .then(function (response) {
+      //TODO Error check and throw
+      return response.json();
+    })
+    .then(function (priceRes) {
+      //get the object within the price results called `${geckoID}`
+      priceRes = priceRes[`${geckoID}`];
+      priceEl.textContent = `$${priceRes.usd}`;
+    });
 }
 
 function searchCoin(query) {
-    coinData = '';//Clear coin data
-    //Fetch data from coin gecko using search query
-    fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
-        .then(function (response) {
-            //TODO Error check and throw
-            return response.json();
-        }).then(function (coinRes) {
-            coinData = coinRes.coins;
-            //If there are three or more results
-            if (coinData.length >= 3) {
-                for (let i = 0; i < 3; i++) {
-                    resultSelectEl.children[i].textContent = coinData[i].name;
-                }
-                openModal(searchModalEl);
-                document.querySelector('#selectBtn').addEventListener('click', coinSelect);
-            }
-            else {
-                console.log("No select");
-                writeCoinData(0);
-            }
-        });
+  coinData = ""; //Clear coin data
+  //Fetch data from coin gecko using search query
+  fetch(`https://api.coingecko.com/api/v3/search?query=${query}`)
+    .then(function (response) {
+      //TODO Error check and throw
+      return response.json();
+    })
+    .then(function (coinRes) {
+      coinData = coinRes.coins;
+      //If there are three or more results
+      if (coinData.length >= 3) {
+        for (let i = 0; i < 3; i++) {
+          resultSelectEl.children[i].textContent = coinData[i].name;
+        }
+        openModal(searchModalEl);
+        document
+          .querySelector("#selectBtn")
+          .addEventListener("click", coinSelect);
+      } else {
+        console.log("No select");
+        writeCoinData(0);
+      }
+    });
 }
 
 function coinSelect() {
-    let resNum = 0;
-    if (resultSelectEl.value) {
-        resNum = Number(resultSelectEl.value);
-    }
-    writeCoinData(resNum);
-    //Remove event listener from the select button
-    document.querySelector('#selectBtn').removeEventListener('click', coinSelect);
-    closeModal(searchModalEl);
+  let resNum = 0;
+  if (resultSelectEl.value) {
+    resNum = Number(resultSelectEl.value);
+  }
+  writeCoinData(resNum);
+  //Remove event listener from the select button
+  document.querySelector("#selectBtn").removeEventListener("click", coinSelect);
+  closeModal(searchModalEl);
 }
 
 function writeCoinData(resNum) {
-    if (!coinData) {
-        console.log('No coin data!')
-        return;
-    }
-    searchNum++;
-    console.log(`SearchNum: ${searchNum}`);
-    addBlock();
-    var coinName = coinData[resNum].name;
-    searchNews(coinName);
-    //Write data to html
-    var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
-    var nameEl = document.createElement("div");
-    var symbolEl = document.createElement("div");
-    var priceEl = document.createElement("div");
+  if (!coinData) {
+    console.log("No coin data!");
+    return;
+  }
+  searchNum++;
+  console.log(`SearchNum: ${searchNum}`);
+  addBlock();
+  var coinName = coinData[resNum].name;
+  searchNews(coinName);
+  //Write data to html
+  var priceDispEl = document.querySelector(`.priceDisp.search${searchNum}`);
+  var nameEl = document.createElement("div");
+  var symbolEl = document.createElement("div");
+  var priceEl = document.createElement("div");
 
-    priceDispEl.appendChild(nameEl);
-    priceDispEl.appendChild(symbolEl);
-    priceDispEl.appendChild(priceEl);
-    var addClasses = ['coinName', 'coinSymbol', 'coinPrice'];
-    var addedElements = priceDispEl.children;
-    for (let i = 0; i < addedElements.length; i++) {
-        addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
-    }
-    nameEl.textContent = coinName;
-    symbolEl.textContent = coinData[resNum].symbol;
-    fetchPrice(coinData[resNum].id);
+  priceDispEl.appendChild(nameEl);
+  priceDispEl.appendChild(symbolEl);
+  priceDispEl.appendChild(priceEl);
+  var addClasses = ["coinName", "coinSymbol", "coinPrice"];
+  var addedElements = priceDispEl.children;
+  for (let i = 0; i < addedElements.length; i++) {
+    addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
+  }
+  nameEl.textContent = coinName;
+  symbolEl.textContent = coinData[resNum].symbol;
+  fetchPrice(coinData[resNum].id);
 }
 
 function searchNews(searchTerm) {
@@ -122,66 +124,82 @@ function searchNews(searchTerm) {
         var titleListItem = document.createElement("a");
         var descListItem = document.createElement("div");
         var artDateListItem = document.createElement("div");
+        var articleDispEl = document.querySelector(
+          `.headLineDisp.search${searchNum}`
+        );
 
-                titleListItem.textContent = artTitle;
-                titleListItem.href = artURL;
-                titleListItem.target = "_blank";
-                descListItem.textContent = "Description: " + artDesc;
-                artDateListItem.textContent = "Published: " + artDate.split("T")[0];
+        titleListItem.textContent = artTitle;
+        titleListItem.href = artURL;
+        titleListItem.target = "_blank";
+        descListItem.textContent = "Description: " + artDesc;
+        artDateListItem.textContent = "Published: " + artDate.split("T")[0];
 
-                articleDispEl.appendChild(titleListItem);
-                articleDispEl.appendChild(descListItem);
-                articleDispEl.appendChild(artDateListItem);
+        articleDispEl.appendChild(titleListItem);
+        articleDispEl.appendChild(descListItem);
+        articleDispEl.appendChild(artDateListItem);
 
-                var addClasses = ['artTitle', 'artDesc', 'artDate']
-                var addedElements = articleDispEl.children;
-                for (let i = 0; i < addedElements.length; i++) {
-                    addedElements[i].classList.add(`search${searchNum}`, `${addClasses[i]}`);
-                }
-            });
-        });
-
+        var addClasses = ["artTitle", "artDesc", "artDate"];
+        var addedElements = articleDispEl.children;
+        for (let i = 0; i < addedElements.length; i++) {
+          addedElements[i].classList.add(
+            `search${searchNum}`,
+            `${addClasses[i]}`
+          );
+        }
+      });
+    });
 }
 
 function addBlock() {
-    let containerEl = document.createElement("div");
-    containerEl.classList.add(`search${searchNum}`, `container`);
-    let columnsEl = document.createElement("div");
-    columnsEl.classList.add(`search${searchNum}`, `columns`);
-    let priceDispEl = document.createElement("div");
-    priceDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `is-one-third`, `priceDisp`);
-    let headLineDispEl = document.createElement("div");
-    headLineDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `headLineDisp`);
+  let containerEl = document.createElement("div");
+  containerEl.classList.add(`search${searchNum}`, `container`);
+  let columnsEl = document.createElement("div");
+  columnsEl.classList.add(`search${searchNum}`, `columns`);
+  let priceDispEl = document.createElement("div");
+  priceDispEl.classList.add(
+    `search${searchNum}`,
+    `box-custom`,
+    `column`,
+    `is-one-third`,
+    `priceDisp`
+  );
+  let headLineDispEl = document.createElement("div");
+  headLineDispEl.classList.add(
+    `search${searchNum}`,
+    `box-custom`,
+    `column`,
+    `headLineDisp`
+  );
 
-    sectionEl.appendChild(containerEl);
-    containerEl.appendChild(columnsEl);
-    columnsEl.appendChild(priceDispEl);
-    columnsEl.appendChild(headLineDispEl);
+  sectionEl.appendChild(containerEl);
+  containerEl.appendChild(columnsEl);
+  columnsEl.appendChild(priceDispEl);
+  columnsEl.appendChild(headLineDispEl);
 }
 
 function openModal(modalEl) {
-    modalEl.classList.add('is-active');
+  modalEl.classList.add("is-active");
 }
 
 function closeModal(modalEl) {
-    if (modalEl) {
-        modalEl.classList.remove('is-active');
-    }
-    else {
-        document.querySelectorAll('.is-active').forEach(modal => {
-            modal.classList.remove('is-active');
-        });
-    }
+  if (modalEl) {
+    modalEl.classList.remove("is-active");
+  } else {
+    document.querySelectorAll(".is-active").forEach((modal) => {
+      modal.classList.remove("is-active");
+    });
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    searchButtonEl.addEventListener('click', searchHandler);
+document.addEventListener("DOMContentLoaded", () => {
+  searchButtonEl.addEventListener("click", searchHandler);
 
-    (document.querySelectorAll('.modal-close') || []).forEach(close => {//get all elements with "modal-close" class and run for each
-        var linkedModal = close.closest('.modal');
+  (document.querySelectorAll(".modal-close") || []).forEach((close) => {
+    //get all elements with "modal-close" class and run for each
+    var linkedModal = close.closest(".modal");
 
-        close.addEventListener('click', () => {
-            closeModal(linkedModal);
-        })
-    })
+    close.addEventListener("click", () => {
+      closeModal(linkedModal);
+    });
+  });
 });
