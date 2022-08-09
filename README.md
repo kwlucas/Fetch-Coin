@@ -1,4 +1,4 @@
-# k5-Project1-finance_info
+# Fetch Coin
 Looking up finance information, background
 
 User Story: 
