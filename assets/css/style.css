@@ -8,30 +8,32 @@ html, body {
     border-bottom: solid 2px rgb(90, 90, 90);
 
 }
-
+/* set width and maximum width, pulled text box off the top and left margin*/
 .input {
     width: 34em;
     margin: 1em 0 0 1em;
     max-width: 50%;
 }
-
+/* set navbar to flex display, dark gray color*/
+/* space-between to evenly space all child elements*/
 #navbar {
     display:flex;
     background-color: #696969;
     align-items: center;
     justify-content: space-between;
     color:rgb(23, 23, 23);
-    font-weight: 500;
+    font-weight: 600;
     font-size:x-large;
+    flex-wrap: wrap;
 }
 
-
+/* gave button 1em margins on all sides */
 .button {
     margin: 1em;
     max-width: min-content;
 }
 
-
+/* set modal boxes heights, added color and shadowing*/
 .box-custom {
     min-height: 18em;
     border-radius: 6px;
@@ -42,38 +44,45 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
+/* sets margins on price box */
 .priceDisp { 
     margin: 1em;
 }
 
+/* sets margins on article box */
 .headLineDisp {
     margin: 1em; 
     font-family: 'Roboto', sans-serif;
     
 }
+/* set margins on title text, increased font size */
+#title {
+    margin: 3px 1em;
+    font-size: xx-large;
+}
 
+/* adds contrasting color and increases size of links */
 a {
     color:rgb(89, 205, 255);
     font-weight: 800;
     font-size: larger;
+    font-weight:bolder;
 }
-
+/* darkened hover over on links */
 a:hover {
     color: #000000;
 }
-
+/* adds contrasting color to visited links */
 a:visited {
     color: rgb(255, 151, 113);
 } 
 
+/* made hover over visited links the same as unvisited */
 a:visited:hover {
     color: #000000
 }
+/* set size of modal dropdown */
 #result-select {
     width: 600px;
 }
 
-.artTitle {
-    font-size:larger;
-    font-weight:bolder;
-}
