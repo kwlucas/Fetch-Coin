@@ -110,7 +110,7 @@ function writeCoinData(resNum) {
 
 function searchNews(searchTerm) {
     //SHOULD NEVER PUT API KEYS IN PUBLIC REPO BUT IT IS HERE UNTIL WE GO OVER HOW TO HIDE IT
-    const apiKey = '';//APIkey goes here
+    const apiKey = 'z2iUbTAjy0yD8xl2bqwIwJ2QgxfMRqZAvStnbuDk';//APIkey goes here
     if (!apiKey) {
         console.log('No APIkey');
         return;
