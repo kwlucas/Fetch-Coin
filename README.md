@@ -6,7 +6,7 @@
 
 ## Preview
 
-IMAGE
+![PreviewImage](./assets/images/preview.PNG)
 
 ## Use
 To get started, enter a coin name in the text-input field and click on the search button. A modal will pop-up with three possible matches, select the coin you would like to see and click on the select button.
