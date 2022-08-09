@@ -85,4 +85,16 @@ a:visited:hover {
 #result-select {
     width: 600px;
 }
+/*style for coin data text*/
+.coinName, .coinSymbol, .coinPrice {
+    font-size: x-large;
+}
+/*font-weight for coin name text*/
+.coinName {
+    font-weight: bolder;
+}
+/*color for coin price text*/
+.coinPrice{
+    color: gold;
+}
 
