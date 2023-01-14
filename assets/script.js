@@ -81,6 +81,7 @@ function writeCoinData(resNum) {
     var nameEl = document.createElement("div");
     var symbolEl = document.createElement("div");
     var priceEl = document.createElement("div");
+    //TODO: Add a date and time
 
     priceDispEl.appendChild(nameEl);
     priceDispEl.appendChild(symbolEl);
