@@ -165,6 +165,7 @@ function addBlock() {
     priceDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `is-one-third`, `priceDisp`);
     let headLineDispEl = document.createElement("div");
     headLineDispEl.classList.add(`search${searchNum}`, `box-custom`, `column`, `headLineDisp`);
+    //TODO: Add delete button
 
     sectionEl.appendChild(containerEl);
     containerEl.appendChild(columnsEl);
